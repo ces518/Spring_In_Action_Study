@@ -8,12 +8,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="spring_in_action" />
         <module name="2장_웹_애플리케이션_개발" />
+        <module name="3장_JDBC를_사용해서_데이터_읽고_쓰기" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="2장_웹_애플리케이션_개발" options="-parameters" />
+      <module name="3장_JDBC를_사용해서_데이터_읽고_쓰기" options="-parameters" />
     </option>
   </component>
 </project>
