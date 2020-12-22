@@ -11,7 +11,7 @@
     <groupId>me.june</groupId>
     <artifactId>spring</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>3장_JDBC를_사용해서_데이터_읽고_쓰기</name>
+    <name>3장_데이터로_작업하기</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
