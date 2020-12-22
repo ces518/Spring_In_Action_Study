@@ -10,7 +10,7 @@ create table if not exists Taco (
     createdAt timestamp not null
 );
 
-create table of not exists Taco_Ingredients (
+create table if not exists Taco_Ingredients (
     taco bigint not null,
     ingredient varchar(4) not null
 );
