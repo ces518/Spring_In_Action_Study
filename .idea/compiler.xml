@@ -6,9 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="spring_in_action" />
         <module name="2장_웹_애플리케이션_개발" />
+        <module name="spring" />
         <module name="3장_JDBC를_사용해서_데이터_읽고_쓰기" />
+        <module name="spring_in_action" />
       </profile>
     </annotationProcessing>
   </component>
@@ -16,6 +17,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="2장_웹_애플리케이션_개발" options="-parameters" />
       <module name="3장_JDBC를_사용해서_데이터_읽고_쓰기" options="-parameters" />
+      <module name="spring" options="-parameters" />
     </option>
   </component>
 </project>

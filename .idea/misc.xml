@@ -6,7 +6,7 @@
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/2장_웹_애플리케이션_개발/pom.xml" />
-        <option value="$PROJECT_DIR$/3장_JDBC를_사용해서_데이터_읽고_쓰기/pom.xml" />
+        <option value="$PROJECT_DIR$/3장_데이터로_작업하기/pom.xml" />
       </list>
     </option>
   </component>
