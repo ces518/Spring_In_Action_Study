@@ -9,6 +9,7 @@
         <module name="2장_웹_애플리케이션_개발" />
         <module name="spring" />
         <module name="4장_스프링_시큐리티_활성화하기" />
+        <module name="5장_구성_속성_사용하기" />
         <module name="3장_JDBC를_사용해서_데이터_읽고_쓰기" />
         <module name="spring_in_action" />
       </profile>
@@ -19,6 +20,7 @@
       <module name="2장_웹_애플리케이션_개발" options="-parameters" />
       <module name="3장_JDBC를_사용해서_데이터_읽고_쓰기" options="-parameters" />
       <module name="4장_스프링_시큐리티_활성화하기" options="-parameters" />
+      <module name="5장_구성_속성_사용하기" options="-parameters" />
       <module name="spring" options="-parameters" />
     </option>
   </component>
