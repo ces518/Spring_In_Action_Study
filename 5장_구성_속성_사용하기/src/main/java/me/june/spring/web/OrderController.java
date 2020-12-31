@@ -6,7 +6,6 @@ import me.june.spring.domain.Order;
 import me.june.spring.domain.User;
 import me.june.spring.repository.OrderRepository;
 import me.june.spring.repository.jpa.UserJpaRepository;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,15 +22,9 @@ import javax.validation.Valid;
 @RequestMapping("/orders")
 @SessionAttributes("order")
 @RequiredArgsConstructor
-@ConfigurationProperties(prefix = "taco.orders")
 public class OrderController {
 
-    private int pageSize = 20;
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
+    private final OrderProps orderProps;
     private final OrderRepository orderRepository;
     private final UserJpaRepository userRepository;
 
@@ -75,7 +68,7 @@ public class OrderController {
 
     @GetMapping
     public String ordersForUser(@AuthenticationPrincipal User user, Model model) {
-        Pageable pageable = PageRequest.of(0, 20);
+        Pageable pageable = PageRequest.of(0, orderProps.getPageSize());
         model.addAttribute("orders", orderRepository.findByUserOrderByPlacedAtDesc(user, pageable));
         return "orderList";
     }

@@ -3,7 +3,9 @@ package me.june.spring.repository.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.june.spring.domain.Order;
 import me.june.spring.domain.Taco;
+import me.june.spring.domain.User;
 import me.june.spring.repository.OrderRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -39,6 +41,11 @@ public class JdbcOrderRepository implements OrderRepository {
         }
 
         return order;
+    }
+
+    @Override
+    public List<Order> findByUserOrderByPlacedAtDesc(User user, Pageable pageable) {
+        return null;
     }
 
     private long saveOrderDetails(Order order) {
