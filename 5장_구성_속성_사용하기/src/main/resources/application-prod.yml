@@ -6,4 +6,3 @@ spring:
 logging:
   level:
     tacos: warn
-
