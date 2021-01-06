@@ -1,6 +1,7 @@
 package me.june.spring.domain;
 
 import lombok.Data;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Data
 @Entity
+@RestResource(rel = "tacos", path = "tacos") // spring-data-rest 의 relation 네임을 설정함.. tacoes -> tacos 로 변경
 public class Taco {
 
     @Id
