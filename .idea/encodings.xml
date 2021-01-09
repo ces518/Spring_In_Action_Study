@@ -7,5 +7,6 @@
     <file url="file://$PROJECT_DIR$/5장_구성_속성_사용하기/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/6장_REST_서비스_생성하기/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/7장_REST_서비스_사용하기/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/8장_비동기_메시지_전송하기/src/main/java" charset="UTF-8" />
   </component>
 </project>
