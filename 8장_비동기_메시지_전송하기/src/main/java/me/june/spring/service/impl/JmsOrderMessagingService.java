@@ -7,6 +7,8 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
 
 @Service
 @RequiredArgsConstructor
@@ -21,5 +23,21 @@ public class JmsOrderMessagingService implements OrderMessagingService {
 
         // convertAndSend 메소드 사용 MessageCreator 를 사용하지 않아도 된다.
         jmsTemplate.convertAndSend(orderQueue, order);
+
+        // 커스텀 헤더 메시지 추가
+        jmsTemplate.send(orderQueue,
+                session -> {
+                    Message message = session.createObjectMessage(order);
+                    message.setStringProperty("X_ORDER_SOURCE", "WEB");
+                    return message;
+                });
+
+        // convertAndSend 커스텀 헤더 추가
+        jmsTemplate.convertAndSend(orderQueue, order, this::addOrderSource);
+    }
+
+    private Message addOrderSource(Message message) throws JMSException {
+        message.setStringProperty("X_ORDER_SOURCE", "WEB");
+        return message;
     }
 }
