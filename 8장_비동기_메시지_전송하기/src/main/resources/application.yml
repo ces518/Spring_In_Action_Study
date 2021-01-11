@@ -11,6 +11,9 @@ spring:
   jms:
     template:
       default-destination: tacocloud.order.queue
+  rabbitmq:
+    template:
+      receive-timeout: 30000
 #logging.level.org.hibernate.type=trace
 
 

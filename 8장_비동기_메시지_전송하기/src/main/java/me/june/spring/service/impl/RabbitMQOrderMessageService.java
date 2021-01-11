@@ -3,7 +3,9 @@ package me.june.spring.service.impl;
 import lombok.RequiredArgsConstructor;
 import me.june.spring.domain.Order;
 import me.june.spring.service.OrderMessagingService;
+import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.MessageConverter;
@@ -21,7 +23,6 @@ public class RabbitMQOrderMessageService implements OrderMessagingService {
     // https://docs.spring.io/spring-framework/docs/3.0.0.M4/reference/html/ch06s03.html
     // https://docs.spring.io/spring-framework/docs/4.3.10.RELEASE/spring-framework-reference/html/expressions.html
     // 킹웃사이더님 의 레퍼런스 번역 -> https://blog.outsider.ne.kr/835
-    //
 
     @Override
     public void sendOrder(Order order) {
@@ -29,8 +30,16 @@ public class RabbitMQOrderMessageService implements OrderMessagingService {
         // 기본 적으로 SimpleMessageConverter 를 사용하며, Jackson2JsonMessageConverter 등을 제공한다.
         MessageConverter converter = rabbitTemplate.getMessageConverter();
         MessageProperties props = new MessageProperties();
+        // Header 설정도 가능하다.
+        props.setHeader("X_ORDER_SOURCE", "WEB");
         Message message = converter.toMessage(order, props);
         rabbitTemplate.send("tacocloud.order", message);
         rabbitTemplate.convertAndSend("tacocloud.order", order);
+
+        // convertAndSend 사용시 header 설정은 MessagePostProcessor 에서 해야한다.
+        rabbitTemplate.convertAndSend("tacocloud.order.queue", order, message1 -> {
+            message1.getMessageProperties().setHeader("X_ORDER_SOURCE", "WEB");
+            return message1;
+        });
     }
 }

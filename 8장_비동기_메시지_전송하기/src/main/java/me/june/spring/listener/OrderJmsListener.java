@@ -5,7 +5,7 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OrderListener {
+public class OrderJmsListener {
 
     // 특정 요청에 대한 Listener 등록
     @JmsListener(destination = "tacocloud.order.queue")
