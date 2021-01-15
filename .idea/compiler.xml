@@ -9,6 +9,7 @@
         <module name="2장_웹_애플리케이션_개발" />
         <module name="spring" />
         <module name="7장_REST_서비스_사용하기" />
+        <module name="9장_스프링_통합하기" />
         <module name="4장_스프링_시큐리티_활성화하기" />
         <module name="5장_구성_속성_사용하기" />
         <module name="3장_JDBC를_사용해서_데이터_읽고_쓰기" />
@@ -27,6 +28,7 @@
       <module name="6장_REST_서비스_생성하기" options="-parameters" />
       <module name="7장_REST_서비스_사용하기" options="-parameters" />
       <module name="8장_비동기_메시지_전송하기" options="-parameters" />
+      <module name="9장_스프링_통합하기" options="-parameters" />
       <module name="spring" options="-parameters" />
     </option>
   </component>
