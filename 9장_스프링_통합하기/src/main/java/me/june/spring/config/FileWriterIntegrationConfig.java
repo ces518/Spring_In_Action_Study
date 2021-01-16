@@ -6,6 +6,7 @@ import org.springframework.integration.annotation.*;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.channel.PublishSubscribeChannel;
 import org.springframework.integration.channel.QueueChannel;
+import org.springframework.integration.core.MessageSource;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.MessageChannels;
@@ -13,13 +14,19 @@ import org.springframework.integration.file.FileWritingMessageHandler;
 import org.springframework.integration.file.dsl.Files;
 import org.springframework.integration.file.support.FileExistsMode;
 import org.springframework.integration.router.AbstractMessageRouter;
+import org.springframework.integration.router.MessageRouter;
+import org.springframework.integration.router.PayloadTypeRouter;
 import org.springframework.integration.transformer.GenericTransformer;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.MessageHandler;
+import org.springframework.messaging.support.GenericMessage;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Configuration
@@ -94,6 +101,17 @@ public class FileWriterIntegrationConfig {
         public GenericTransformer<Integer, String> romanNumTransformer() {
             return RomanNumbers::toRoman;
         }
+
+        @Bean
+        public IntegrationFlow numberRoutingFlow(AtomicInteger source) {
+            return IntegrationFlows.from(MessageChannels.direct("numberChannel"))
+                    .<Integer, String>route(n -> n % 2 == 0 ? "EVEN" : "ODD", mapping -> mapping
+                        .subFlowMapping("EVEN", sf -> sf.<Integer, Integer>transform(n -> n * 10).handle((i, h) -> {
+                            // ...
+                        }))
+                        .subFlowMapping("ODD", sf -> sf.<Integer, Integer>transform(RomanNumbers::toRoman))
+                    )
+        }
     */
     @Bean
     @Router(inputChannel = "numberChannel")
@@ -118,5 +136,68 @@ public class FileWriterIntegrationConfig {
     @Bean
     public MessageChannel oddChannel() {
         return new DirectChannel();
+    }
+
+    /*
+        분배기
+     */
+
+    class BillingInfo {
+
+    }
+
+    class PurchaseOrder {
+        BillingInfo billingInfo;
+        List<String> lineItems;
+    }
+
+    class OrderSplitter {
+        public Collection<Object> splitOrderIntoParts(PurchaseOrder po) {
+            return List.of(po.billingInfo, po.lineItems);
+        }
+    }
+
+    @Bean
+    @Splitter(inputChannel = "poChannel", outputChannel = "splitOrderChannel")
+    public OrderSplitter orderSplitter() {
+        return new OrderSplitter();
+    }
+
+    @Bean
+    @Router(inputChannel = "splitOrderChannel")
+    public MessageRouter splitOrderRouter() {
+        PayloadTypeRouter router = new PayloadTypeRouter();
+        router.setChannelMapping(BillingInfo.class.getName(), "billingInfoChannel");
+        router.setChannelMapping(List.class.getName(), "lineItemsChannel");
+        return router;
+    }
+
+    /*
+        서비스 액티베이터
+     */
+    @Bean
+    @ServiceActivator(inputChannel = "someChannel")
+    public MessageHandler sysoutHandler() {
+        return message -> {
+            System.out.println("Message payload: " + message.getPayload());
+        };
+    }
+
+    /*
+        게이트웨이
+     */
+    @Component
+    @MessagingGateway(defaultRequestChannel = "inChannel", defaultReplyChannel = "outChannel")
+    interface UpperCaseGateway {
+        String uppercase(String in);
+    }
+
+    /*
+        채널 어댑터
+     */
+    @Bean
+    @InboundChannelAdapter(poller = @Poller(fixedRate = "1000"), channel = "numberChannel")
+    public MessageSource<Integer> numberSource(AtomicInteger source) {
+        return () -> new GenericMessage<>(source.getAndIncrement());
     }
 }
