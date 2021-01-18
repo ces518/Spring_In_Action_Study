@@ -13,6 +13,7 @@
         <option value="$PROJECT_DIR$/7장_REST_서비스_사용하기/pom.xml" />
         <option value="$PROJECT_DIR$/8장_비동기_메시지_전송하기/pom.xml" />
         <option value="$PROJECT_DIR$/9장_스프링_통합하기/pom.xml" />
+        <option value="$PROJECT_DIR$/10장_리액터_개요/pom.xml" />
       </list>
     </option>
   </component>
