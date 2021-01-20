@@ -11,9 +11,7 @@ import reactor.test.StepVerifier;
 import reactor.util.function.Tuple2;
 
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Stream;
 
 @SpringBootTest
@@ -316,6 +314,7 @@ class ApplicationTests {
                                 return new Player(split[0], split[1]);
                             })
                             .subscribeOn(Schedulers.parallel())
+                            // subscribeOn 은 subscribe 와 다름
                 );
 
         // Schedulers.parallel() 은 다른 스레드풀과는 다르게 동작한다.
@@ -328,6 +327,104 @@ class ApplicationTests {
                 .expectNextMatches(p -> players.contains(p))
                 .expectNextMatches(p -> players.contains(p))
                 .expectNextMatches(p -> players.contains(p))
+                .verifyComplete();
+    }
+
+    @Test
+    @DisplayName("buffer 로 버퍼링하기")
+    public void buffer() {
+        Flux<String> fruitFlux = Flux.just("apple", "orange", "banana", "kiwi", "strawberry");
+
+        Flux<List<String>> bufferedFlux = fruitFlux.buffer(3); // buffer 는 지정된 숫자만큼 버퍼링 하여 출력한다.
+
+        // 리액티브가 아닌 List 컬렉션으로 버퍼링 되기 때문에 비효율적인것 처럼 보일 수 있지만, flatMap 과 함께 사용하면
+        // 각 List 컬렉션을 병행으로 처리가 가능하다.
+
+        fruitFlux.buffer(3)
+                .flatMap(x ->
+                        Flux.fromIterable(x)
+                            .map(y -> y.toUpperCase())
+                            .subscribeOn(Schedulers.parallel())
+                            .log() // log 는 모든 스트림 이벤트를 로깅한다.
+                ).subscribe();
+
+        /*
+        2021-01-20 21:49:01.822  INFO 707 --- [           main] reactor.Flux.SubscribeOn.1               : onSubscribe(FluxSubscribeOn.SubscribeOnSubscriber)
+        2021-01-20 21:49:01.825  INFO 707 --- [           main] reactor.Flux.SubscribeOn.1               : request(32)
+        2021-01-20 21:49:01.828  INFO 707 --- [           main] reactor.Flux.SubscribeOn.2               : onSubscribe(FluxSubscribeOn.SubscribeOnSubscriber)
+        2021-01-20 21:49:01.828  INFO 707 --- [           main] reactor.Flux.SubscribeOn.2               : request(32)
+        2021-01-20 21:49:01.830  INFO 707 --- [     parallel-1] reactor.Flux.SubscribeOn.1               : onNext(APPLE)
+        2021-01-20 21:49:01.831  INFO 707 --- [     parallel-1] reactor.Flux.SubscribeOn.1               : onNext(ORANGE)
+        2021-01-20 21:49:01.830  INFO 707 --- [     parallel-2] reactor.Flux.SubscribeOn.2               : onNext(KIWI)
+        2021-01-20 21:49:01.831  INFO 707 --- [     parallel-1] reactor.Flux.SubscribeOn.1               : onNext(BANANA)
+        2021-01-20 21:49:01.831  INFO 707 --- [     parallel-2] reactor.Flux.SubscribeOn.2               : onNext(STRAWBERRY)
+        2021-01-20 21:49:01.831  INFO 707 --- [     parallel-2] reactor.Flux.SubscribeOn.2               : onComplete()
+        2021-01-20 21:49:01.831  INFO 707 --- [     parallel-1] reactor.Flux.SubscribeOn.1               : onComplete()
+         */
+
+        StepVerifier.create(bufferedFlux)
+                .expectNext(List.of("apple", "orange", "banana"))
+                .expectNext(List.of("kiwi", "strawberry"))
+                .verifyComplete();
+    }
+
+    @Test
+    @DisplayName("collectList 로 Mono 반환하기")
+    public void collectList() {
+        Flux<String> fruitFlux = Flux.just("apple", "orange", "banana", "kiwi", "strawberry");
+
+        // CollectList 를 호출하면 Mono 를 생성한다.
+        Mono<List<String>> fruitListMono = fruitFlux.collectList();
+
+        StepVerifier.create(fruitListMono)
+                .expectNext(List.of("apple", "orange", "banana", "kiwi", "strawberry"))
+                .verifyComplete();
+    }
+
+    @Test
+    @DisplayName("collectMap 으로 Map 을 포함하는 Mono 반환하기")
+    public void collectMap() {
+        Flux<String> animalFlux = Flux.just("aardvark", "elephant", "koala", "eagle", "kangaroo");
+
+        // Map 을 포함하는 Mono 를 생성한다.
+        Mono<Map<Character, String>> animalMapMono = animalFlux.collectMap(a -> a.charAt(0));
+
+        StepVerifier.create(animalMapMono).expectNextMatches(map -> {
+            return map.size() == 3 &&
+                    map.get('a').equals("aardvark") &&
+                    map.get('e').equals("eagle") &&
+                    map.get('k').equals("kangaroo");
+        })
+        .verifyComplete();
+    }
+
+    @Test
+    @DisplayName("all 로 로직 오퍼레이션 수행")
+    public void all() {
+        Flux<String> animalFlux = Flux.just("aardvark", "elephant", "koala", "eagle", "kangaroo");
+
+        Mono<Boolean> hasAMono = animalFlux.all(a -> a.contains("a"));
+
+        StepVerifier.create(hasAMono)
+                .expectNext(true)
+                .verifyComplete();
+
+        Mono<Boolean> hasKMono = animalFlux.all(a -> a.contains("k"));
+
+        StepVerifier.create(hasKMono)
+                .expectNext(false)
+                .verifyComplete();
+    }
+
+    @Test
+    @DisplayName("any 로 로직 오퍼레이션 수행")
+    public void any() {
+        Flux<String> animalFlux = Flux.just("aardvark", "elephant", "koala", "eagle", "kangaroo");
+
+        Mono<Boolean> hasTMono = animalFlux.any(a -> a.contains("t"));
+
+        StepVerifier.create(hasTMono)
+                .expectNext(true)
                 .verifyComplete();
     }
 }
