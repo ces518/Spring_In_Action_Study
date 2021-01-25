@@ -1,0 +1,10 @@
+spring:
+  data:
+    cassandra:
+      keyspace-name: tacocloud
+      schema-action: recreate_drop_unused
+      local-datacenter: datacenter1
+# spring boot 2.3.x 부터 ...
+# https://stackoverflow.com/questions/60668792/spring-data-with-cassandra-giving-illegalstateexception
+# https://stackoverflow.com/questions/64940864/how-install-cassandra-in-docker
+# CREATE KEYSPACE tacocloud WITH replication = {'class' : 'SimpleStrategy', 'replication_factor' : 1};
