@@ -2,6 +2,7 @@ package me.june.spring.domain;
 
 import com.datastax.oss.driver.api.core.uuid.Uuids;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.cassandra.core.cql.Ordering;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.Column;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Getter
+@Setter
 @Table("tacos")
 public class Taco {
 
@@ -34,5 +36,5 @@ public class Taco {
     // Ingredient 클래스는 @Table 애노테이션으로 엔티티로 매핑되었기 때문에 재사용할 수 없다.
     // Ingredient 가 Taco 테이블의 ingredients 열에 어떻게 저장되어야 하는지 정의하기 위한 클래스
     @Column("ingredients")
-    private List<IngredientUDT> ingredients = new ArrayList<>();
+    private List<IngredientUDT> ingredients;
 }

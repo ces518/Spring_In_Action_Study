@@ -25,6 +25,7 @@
         <module name="spring (3)" />
         <module name="spring (6)" />
         <module name="spring (5)" />
+        <module name="12장_리액티브_데이터_퍼시스턴스" />
         <module name="8장_비동기_메시지_전송하기" />
         <module name="spring (2)" />
         <module name="spring (1)" />
@@ -35,6 +36,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="10장_리액터_개요" options="-parameters" />
       <module name="11장_리액티브API_개발하기" options="-parameters" />
+      <module name="12장_리액티브_데이터_퍼시스턴스" options="-parameters" />
       <module name="2장_웹_애플리케이션_개발" options="-parameters" />
       <module name="3장_JDBC를_사용해서_데이터_읽고_쓰기" options="-parameters" />
       <module name="4장_스프링_시큐리티_활성화하기" options="-parameters" />
