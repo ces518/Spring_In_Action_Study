@@ -1,0 +1,8 @@
+# 대부분의 액추에이터 엔드포인트는 비활성화 되어 있다.
+# /actuator/hystrix.stream
+# Hystrix 스트림 엔드 포인트 활성화
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream

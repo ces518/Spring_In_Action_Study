@@ -1,0 +1,4 @@
+server.port: 7979
+hystrix:
+  dashboard:
+    proxy-stream-allow-list: '*'

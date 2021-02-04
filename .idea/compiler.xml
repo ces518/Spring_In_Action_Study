@@ -24,6 +24,9 @@
         <module name="spring (2)" />
         <module name="13장_서비스_탐구하기_3" />
         <module name="13장_서비스_탐구하기_2" />
+        <module name="15장_실패와_지연_처리하기_3" />
+        <module name="15장_실패와_지연_처리하기" />
+        <module name="15장_실패와_지연_처리하기_2" />
         <module name="10장_리액터_개요" />
         <module name="6장_REST_서비스_생성하기" />
         <module name="13장_서비스_탐구하기" />
@@ -48,6 +51,9 @@
       <module name="13장_서비스_탐구하기_3" options="-parameters" />
       <module name="14장_클라우드_구성관리" options="-parameters" />
       <module name="14장_클라우드_구성관리_2" options="-parameters" />
+      <module name="15장_실패와_지연_처리하기" options="-parameters" />
+      <module name="15장_실패와_지연_처리하기_2" options="-parameters" />
+      <module name="15장_실패와_지연_처리하기_3" options="-parameters" />
       <module name="2장_웹_애플리케이션_개발" options="-parameters" />
       <module name="3장_JDBC를_사용해서_데이터_읽고_쓰기" options="-parameters" />
       <module name="4장_스프링_시큐리티_활성화하기" options="-parameters" />
