@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="11장_리액티브API_개발하기" />
+        <module name="16장_스프링부트_액츄에이터_사용하기" />
         <module name="7장_REST_서비스_사용하기" />
         <module name="5장_구성_속성_사용하기" />
         <module name="spring_in_action" />
@@ -54,6 +55,7 @@
       <module name="15장_실패와_지연_처리하기" options="-parameters" />
       <module name="15장_실패와_지연_처리하기_2" options="-parameters" />
       <module name="15장_실패와_지연_처리하기_3" options="-parameters" />
+      <module name="16장_스프링부트_액츄에이터_사용하기" options="-parameters" />
       <module name="2장_웹_애플리케이션_개발" options="-parameters" />
       <module name="3장_JDBC를_사용해서_데이터_읽고_쓰기" options="-parameters" />
       <module name="4장_스프링_시큐리티_활성화하기" options="-parameters" />

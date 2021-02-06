@@ -1,0 +1,76 @@
+# 액츄에이터 기본 경로 확인
+GET http://localhost:8080/management
+
+###
+
+# 애플리케이션 기본정보 가져오기
+GET http://localhost:8080/management/info
+
+###
+
+# 애플리케이션 상태 가져오기
+GET http://localhost:8080/management/health
+
+###
+
+# 빈의 연결정보 가져오기
+GET http://localhost:8080/management/beans
+
+###
+
+# 자동구성 내역 가져오기
+GET http://localhost:8080/management/conditions
+
+###
+
+# 환경 속성과 구성 속성 가져오기
+GET http://localhost:8080/management/env
+
+###
+
+# 구성 속성 지정하기
+POST http://localhost:8080/management/env
+Content-Type: application/json
+
+{
+ "name": "hello": "value": "world"
+}
+
+###
+
+# HTTP 요청-매핑 내역 가져오기
+GET http://localhost:8080/management/mappings
+
+###
+
+# 로깅 정보 가져오기
+GET http://localhost:8080/management/loggers
+
+###
+
+# HTTP 요청 추적
+# spring boot 2.2.x 부터 기본 설정에서 제외되었다.
+# 추가적인 설정 필요
+# https://stackoverflow.com/questions/59115578/httptrace-endpoint-of-spring-boot-actuator-doesnt-exist-anymore-with-spring-b
+GET http://localhost:8080/management/httptrace
+
+###
+
+# 스레드 모니터링
+# 요청 시점의 스레드에 대한 스냅샷만 제공한다.
+GET http://localhost:8080/management/threaddump
+
+###
+
+# 런타임 메트릭
+## 요청시 각종 메트릭 종류에 대한 응답이 옴
+GET http://localhost:8080/management/metrics
+
+###
+
+GET http://localhost:8080/management/metrics/http.server.requests
+
+###
+
+# 태그 속성을 활용해서 404 였던 요청들을 필터링
+GET http://localhost:8080/management/metrics/http.server.requests?tag=status:404

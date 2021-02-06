@@ -1,0 +1,27 @@
+# 액츄에이터의 모든 엔드포인트는 기본적으로 /actuator 가 붙는다.
+# /management 로 엔드포인트를 변경하고 싶다면. management.endpoints.web.base-path 에 지정
+# 액츄에이터 엔드포인트는 기본적으로 /health 와 /info 만 활성화 되어있다.
+# 민감 정보를 제공하기 때문에 기본적으로 비활성화 되어 있으며, 스프링 시큐리티 사용을 권장한다.
+management:
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include: '*'
+        # include: health, info, beans, conditions, env, mappings, loggers, httptrace
+        # 액츄에이터의 엔드포인트 활성화 지정, 모두 활성화 하고 싶다면 '*' 로 지정해야한다.
+        # exclude: threaddump, heapdump # 일부만 제외하고 싶을때 지정한다.
+  endpoint:
+    health:
+      show-details: always # 기본적으로 /health 엔드포인트는 종합 결과만 반환된다. 모든 상세 내역을 볼떄는 always 로 지정해주어야 한다. 기본값은 never
+  trace:
+    http:
+      enabled: true
+
+# /info 엔드포인트로 제공할 정보
+info:
+  contact:
+    email: pupupee9@gmail.com
+    phone: 010-xxxx-xxxx
+  git:
+    mode: full
